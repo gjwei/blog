@@ -96,3 +96,89 @@ Hessian在极小值处只有正特征值。
 对动量的方法进行了一次修正。在Nesterov动量中，梯度计算是在施加当前动量之后。可以解释为在标准动量方法中增加了一个矫正因子。
 算法如下：
 ![](https://ws1.sinaimg.cn/large/9244e6f1gy1frcecub9goj20pd0bi0vn.jpg)
+
+其实，在随机梯度的情况下，nesterov并没没有改进收敛。
+
+## 参数初始化策略
+初始化的策略会影响到深度学习模型的收敛情况。
+
+初始化参数需要在不同单元间”破坏对称性“。如果两个在同一层的神经元的参数相同，那么学习算法将会使参数以相同的方向更新。
+
+我们几乎总是初始化模型的权重为**高斯或者均匀分布**的值，二者的选择似乎不会有很大的区别。
+
+更大的初始化权值具有更强的破坏对称性的作用，有助于避免冗余的单元。同时也有助于增强梯度传播的信号强度。但是，如果初始化权重太大，那么可能在前向传播或者反向传播中产生梯度爆炸的值。
+
+同时，较大的权重也会容易使得激活函数饱和，导致饱和的单元的梯度完全消失。
+
+### 如何继续初始化？
+参考链接：https://zhuanlan.zhihu.com/p/25931903
+
+当我们对参数进行随机初始化时候，如果初始化的参数很小，得到的激活值会很快接近于0（(Tanh)，同时，梯度在进行反向传播的时候会累乘每一层的权值，权值过小，会导致梯度变得很小，参数无法更新。
+![](https://ws1.sinaimg.cn/large/9244e6f1gy1frd9u5iz8sj20go05odga.jpg)
+
+此外，如果初始化的参数很大，则每一层的输出都非常大，经过激活函数之后的输出集中在-1和1上，此事，激活函数是出于饱和的情况，导数接近于0.在进行反向传播的时候，会导致梯度消失。
+![](https://ws1.sinaimg.cn/large/9244e6f1gy1frd9w7glq8j20go05ot97.jpg)
+
+**Xavier initialization**
+
+```
+w = Variable(np.random.randn(node_in, node_out)) / np.sqrt(node_in)
+```
+![](https://pic4.zhimg.com/80/v2-4d8690ecd797c7702a00f5d28608be8f_hd.jpg)
+这种方法对于tanh激活函数有效，但是对于ReLU激活函数，还是会出现输出值趋近于0的情况。
+![](https://ws1.sinaimg.cn/large/9244e6f1gy1frd9yzf6u4j20go04s3yx.jpg)
+
+**He initialization**
+He initialization的思想是：在ReLU网络中，假定每一层有一半的神经元被激活，另一半为0，所以，要保持variance不变，只需要在Xavier的基础上再除以2：
+
+```
+w = Variable(np.random.randn(node_in, node_out) / np.sqrt(node_in / 2))
+```
+
+推荐在ReLu网络中使用
+
+**BatchNormalization**
+对输出进行重新的normlization。
+
+## 自适应是学习算法
+自适应的学习算法是通过累积二阶动量的信息（梯度的平方和），然后将学习率处于二阶动量的根号。通过这种方法，**可以让具有损失最大偏导的参数的学习率下降快，而具有小偏导的参数的学习率具有相对较小的下降**
+
+### Adagrad
+![](https://ws1.sinaimg.cn/large/9244e6f1gy1frdagc2xncj20o90cfq62.jpg)
+
+
+```
+# Assume the gradient dx and parameter vector x
+cache += dx**2
+x += - learning_rate * dx / (np.sqrt(cache) + eps)
+```
+
+### RMSProp
+在Adagrad的基础上，对二阶动量进行了指数加权衰减。使得在找到凸碗状结构后能够快速收敛
+![](https://ws1.sinaimg.cn/large/9244e6f1gy1frdahay3f4j20p40d4tbz.jpg)
+```
+cache = decay_rate * cache + (1 - decay_rate) * dx**2
+x += - learning_rate * dx / (np.sqrt(cache) + eps)
+```
+
+### Adam
+增加了一阶的动量
+![](https://ws1.sinaimg.cn/large/9244e6f1gy1frdaihlsm5j20pw0k2wjv.jpg)
+
+```
+# t is your iteration counter going from 1 to infinity
+m = beta1*m + (1-beta1)*dx
+mt = m / (1-beta1**t)
+v = beta2*v + (1-beta2)*(dx**2)
+vt = v / (1-beta2**t)
+x += - learning_rate * mt / (np.sqrt(vt) + eps)
+```
+
+
+![](http://cs231n.github.io/assets/nn3/opt2.gif)
+![](http://cs231n.github.io/assets/nn3/opt1.gif)
+
+
+## 二阶近似方法
+
+### 牛顿法
