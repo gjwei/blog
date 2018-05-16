@@ -83,4 +83,16 @@ Hessian在极小值处只有正特征值。
 在实践中，我们有必要随着时间推移逐渐降低学习率。
 
 ### 动量
+动量算法主要是用在加速训练，忒儿是处理高曲率，小但一致的梯度，或者是有噪音的梯度。
 
+动量算法积累了之前的梯度指数级衰减的移动平均，并且在这个方向上继续移动。
+学习的效果图：
+![](https://raw.githubusercontent.com/gjwei/gjwei.github.io/master/uploads/20180515222141.png)
+
+学习的算法是：
+![](https://raw.githubusercontent.com/gjwei/gjwei.github.io/master/uploads/20180515222238.png)
+
+### Neserov动量
+对动量的方法进行了一次修正。在Nesterov动量中，梯度计算是在施加当前动量之后。可以解释为在标准动量方法中增加了一个矫正因子。
+算法如下：
+![](https://ws1.sinaimg.cn/large/9244e6f1gy1frcecub9goj20pd0bi0vn.jpg)

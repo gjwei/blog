@@ -7,7 +7,7 @@ tags: machine learning
 ## 论文提出的贡献点：
 1. 一个新的tree learning algorithm，可以有效处理sparse data
 2. 理论上合理的加权分位数程序可以在近似树学习中处理实例权重。
-
+<!-- more -->
 贡献点：
 1. 设计一个高可拓展性的end-to-end tree boosting系统
 2. 理论上合理的加权分位数程序可以在近似树学习中处理实例权重。
