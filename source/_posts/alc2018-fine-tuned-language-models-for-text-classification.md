@@ -72,7 +72,7 @@ LitLaM包含以下步骤：
 这种方法经过试验效果最好。
 我们只训练一个epoch，并且按照下面的schedule在每个batch进行降低学习率的
 
-![](https://raw.githubusercontent.com/gjwei/gjwei.github.io/master/uploads/20180517133150.png)
+![](https://raw.githubusercontent.com/gjwei/images/master/20180517152338.png)
 
 在这里$n_t$表示step t对应batch的学习率。
 
@@ -101,10 +101,10 @@ $$ h_c = [h_T, maxpool(H), meanpool(H)] $$
 与其对所有的层使用相同的学习率，有区别的微调允许我们使用不同的学习率调节每个层，对于上下文，在时间步t的参数更新公式为：
 ![](https://raw.githubusercontent.com/gjwei/gjwei.github.io/master/uploads/20180517144054.png)
 
-对于discriminative fine-tuning,我们将参数按照层进行划分为$\{ \theta^1, ..., \theta^L\}$。相似的，也可以得到每一层的学习率![](https://raw.githubusercontent.com/gjwei/gjwei.github.io/master/uploads/20180517144933.png)
+对于discriminative fine-tuning,我们将参数按照层进行划分为$\{ \theta^1, ..., \theta^L\}$。相似的，也可以得到每一层的学习率
 
 然后，在进行参数更新的时候，根据以下规则进行调整参数。
-![](https://raw.githubusercontent.com/gjwei/gjwei.github.io/master/uploads/20180517145025.png)
+![](https://raw.githubusercontent.com/gjwei/images/master/20180517152238.png)
 
 经验发现，首先选择第L层的学习率，然后根据$\eta^l = \eta^{l + 1} * 0.3$效果很好
 
@@ -121,7 +121,7 @@ $$ h_c = [h_T, maxpool(H), meanpool(H)] $$
 ### Bidirectional LM
 
 ## Experiments
-![](https://raw.githubusercontent.com/gjwei/gjwei.github.io/master/uploads/20180517150327.png)
+![](https://raw.githubusercontent.com/gjwei/images/master/20180517152156.png)
 
 
 没有找打相关的代码，不知道具体的实现是怎么样的。
