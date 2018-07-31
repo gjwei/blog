@@ -1,6 +1,6 @@
 ---
 title: deep-learning-面试题
-date: 2018-07-24 20:52:31
+date: 2018-05-24 20:52:31
 tags: deep learning
 ---
 ## 内容来自：https://github.com/elviswf/DeepLearningBookQA_cn
@@ -40,6 +40,7 @@ L2范数在某个位置的导数和整个向量的位置有关，衰减的步长
 1. sigmoid函数用阿里产生Bernoulili分布的参数，在变量取绝对值非常大的时候，会出现饱和情况，函数会变得很平。
 2. softplus函数：$f(x) = log(1 + exp(x))$
 3. Relu函数：计算及其简单，在非零位置求导很快。不需要复杂的运算。
+缓解了梯度消失的问题；
 缺点：如果初始化或者learning rate设置的不好，会导致神经元die的问题。
 
 
