@@ -1,13 +1,13 @@
 ---
-title: NCE_NS
+title: Noise Contrastive Estimation and Negative Sampling
 date: 2018-06-26 15:27:56
 tags: NLP, paper
 ---
 # Notes on Noise Contrastive Estimation and Negative Sampling
 
 结论：
-**NCE在计算正负样本的条件概率大小的时候，考虑了负样本和分布情况，预测的结果不仅和正样本有关，同时和负样本的分布也有关系。
-但是，而Negative没有考虑负样本的分布，直接将正负样本都当做是已经存在的（存在即是必然），抽样出来的负样本就是假设已经存在的负样本。对NCE的进一步简化。**
+**NCE在计算正负样本的条件概率大小的时候，考虑了负样本和分布情况，预测的结果不仅和正样本有关，同时和负样本的分布也有关系。负样本的label是 soft label**
+**但是，而Negative没有考虑负样本的分布，直接将正负样本都当做是已经存在的（存在即是必然），抽样出来的负样本就是假设已经存在的负样本。对NCE的进一步简化。负样本的lable是hard label**
 
 <!-- more -->
 
