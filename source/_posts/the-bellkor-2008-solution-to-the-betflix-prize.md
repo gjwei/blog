@@ -36,5 +36,3 @@ Here，我们预测随着时间t的打分值r。请注意，相关的参数现�
 ![](https://raw.githubusercontent.com/gjwei/images/master/20190122150511.png)
 ![](https://raw.githubusercontent.com/gjwei/images/master/20190122150558.png)
 
-
-## Neighborhood Models
